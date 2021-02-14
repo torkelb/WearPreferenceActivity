@@ -22,23 +22,23 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.wearable.view.CircledImageView;
-import android.support.wearable.view.WearableListView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import me.denley.wearpreferenceactivity.R;
 import preference.WearPreference;
 
 @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
-public class ListItemLayout extends FrameLayout implements WearableListView.OnCenterProximityListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class ListItemLayout extends FrameLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final float ALPHA_NON_CENTER = 0.6f;
 
@@ -52,7 +52,7 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
 
     @Nullable private WearPreferenceItem bindedPreference = null;
 
-    @Nullable private CircledImageView icon;
+    @Nullable private ImageView icon;
     @Nullable private TextView title, summary;
 
     private float circleRadiusCenter, circleRadiusNonCenter;
@@ -86,13 +86,13 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
     private void init(@NonNull Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         initLayout(context);
-        initCircle(context, attrs, defStyleAttr, defStyleRes);
-        initAnimations();
+        //todo fixa kanske initCircle(context, attrs, defStyleAttr, defStyleRes);
+        // todo fixa kanske initAnimations();
     }
 
     private void initLayout(@NonNull Context context) {
         LayoutInflater.from(context).inflate(R.layout.preference_item, this);
-        icon = (CircledImageView) findViewById(android.R.id.icon);
+        icon = (ImageView) findViewById(android.R.id.icon);
         title = (TextView) findViewById(android.R.id.title);
         summary = (TextView) findViewById(android.R.id.summary);
     }
@@ -119,14 +119,14 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
 
                 array.recycle();
 
-                icon.setCircleBorderColor(borderColor);
-                icon.setCircleBorderWidth(borderWidth);
+               //todo: fixa icon.setCircleBorderColor(borderColor);
+               //todo: fixa icon.setCircleBorderWidth(borderWidth);
             }
 
-            icon.setCircleColor(circleColorCenter);
-            icon.setCircleRadiusPressed(circleRadiusCenter);
-            circleGrowAnimation = new CircleSizeAnimation(icon, circleRadiusCenter);
-            circleShrinkAnimation = new CircleSizeAnimation(icon, circleRadiusNonCenter);
+            //todo: fixa icon.setCircleColor(circleColorCenter);
+            // todo: fixa icon.setCircleRadiusPressed(circleRadiusCenter);
+            // todo: hmm circleGrowAnimation = new CircleSizeAnimation(icon, circleRadiusCenter);
+            // todo: hmm circleShrinkAnimation = new CircleSizeAnimation(icon, circleRadiusNonCenter);
         }
     }
 
@@ -138,7 +138,7 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
     public void setCircleRadiusCenter(float circleRadiusCenter) {
         this.circleRadiusCenter = circleRadiusCenter;
         if(icon!=null) {
-            icon.setCircleRadiusPressed(circleRadiusCenter);
+            // todo: fixa icon.setCircleRadiusPressed(circleRadiusCenter);
         }
     }
 
@@ -174,7 +174,7 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
                          @Nullable final CharSequence titleText,
                          @Nullable final CharSequence summaryText) {
         if(icon !=null) {
-            icon.setImageResource(iconId);
+           icon.setImageResource(iconId);
         }
         if(title!=null) {
             title.setText(titleText);
@@ -195,7 +195,8 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
         }
     }
 
-    @Override public void onCenterPosition(boolean animate) {
+   /* todo fixa kanske  @Override
+    public void onCenterPosition(boolean animate) {
         if(icon!=null) {
             icon.setAlpha(1);
             icon.setCircleColor(circleColorCenter);
@@ -233,6 +234,6 @@ public class ListItemLayout extends FrameLayout implements WearableListView.OnCe
         if(summary!=null) {
             summary.setAlpha(ALPHA_NON_CENTER);
         }
-    }
+    }*/
 
 }

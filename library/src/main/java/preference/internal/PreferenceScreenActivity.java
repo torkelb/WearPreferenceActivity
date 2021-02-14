@@ -16,6 +16,7 @@ public class PreferenceScreenActivity extends WearPreferenceActivity {
         }
 
         final WearPreferenceScreen screen = (WearPreferenceScreen) getIntent().getSerializableExtra(EXTRA_SCREEN);
+        assert screen != null;
         setTitle(screen.getTitle(this));
         addPreferencesFromPreferenceScreen(screen);
     }

@@ -4,23 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background"
+    android:orientation="vertical"
     >
-
+    <!-- If placed last it will be drawn on top of the other items -->
     <TextView
         android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:ellipsize="end"
-        android:padding="16dp"
+        android:padding="8dp"
         android:textSize="24sp"
-        android:alpha="0.6"
+        android:textStyle="bold"
+        android:gravity="center"
         />
 
-    <android.support.wearable.view.WearableListView
+    <androidx.wear.widget.WearableRecyclerView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+    />
+    <!--android:paddingBottom="40dp"
+    android:paddingTop="60dp"-->
 </preference.internal.HeadingListView>

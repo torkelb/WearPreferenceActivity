@@ -2,9 +2,10 @@ package preference.internal;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 

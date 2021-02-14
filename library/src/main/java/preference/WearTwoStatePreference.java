@@ -3,11 +3,12 @@ package preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.preference.PreferenceManager;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import me.denley.wearpreferenceactivity.R;
 
@@ -21,9 +22,10 @@ import me.denley.wearpreferenceactivity.R;
 public class WearTwoStatePreference extends WearPreference {
 
     @Nullable private CharSequence summaryOn, summaryOff;
-    @DrawableRes private int iconOn, iconOff;
+    @DrawableRes private final int iconOn;
+    @DrawableRes private final int iconOff;
 
-    private boolean defaultValue;
+    private final boolean defaultValue;
 
     public WearTwoStatePreference(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -1,9 +1,10 @@
 package preference;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import preference.internal.WearPreferenceItem;
 
@@ -16,8 +17,8 @@ import preference.internal.WearPreferenceItem;
  */
 public abstract class WearPreference extends WearPreferenceItem {
 
-    private String key;
-    private String defaultValue;
+    private final String key;
+    private final String defaultValue;
 
     public WearPreference(Context context, AttributeSet attrs) {
         super(context, attrs);

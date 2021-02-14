@@ -4,14 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.DrawableRes;
-import android.support.wearable.view.WearableListView;
+import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
 import me.denley.wearpreferenceactivity.R;
 
-public class ListChooserActivity extends TitledWearActivity implements WearableListView.ClickListener {
+public class ListChooserActivity extends TitledWearActivity {
 
     public static Intent createIntent(Context context, String key, String title, int icon,
                                       CharSequence[] entries, CharSequence[] entryValues,
@@ -45,6 +50,7 @@ public class ListChooserActivity extends TitledWearActivity implements WearableL
     CharSequence[] values;
     int[] icons;
 
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preference_list);
@@ -52,10 +58,14 @@ public class ListChooserActivity extends TitledWearActivity implements WearableL
         loadIntentExtras();
         checkRequiredExtras();
 
-        final WearableListView list = (WearableListView) findViewById(android.R.id.list);
+        final WearableRecyclerView list = findViewById(android.R.id.list);
         list.setAdapter(new PreferenceEntriesAdapter());
-        list.scrollToPosition(getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0));
-        list.setClickListener(this);
+        WearableRecyclerView.LayoutManager layoutManager = new WearableLinearLayoutManager(this);
+        list.setLayoutManager(layoutManager);
+        // list.scrollToPosition makes our automatic heading adjustment fail so use this instead
+        ((WearableLinearLayoutManager)list.getLayoutManager()).scrollToPositionWithOffset(getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0), 0);
+        /*Log.d("ListChooserActivity",
+                "scrollToPositionWithOffset("+getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0)+")");*/
     }
 
     private void loadIntentExtras(){
@@ -79,32 +89,40 @@ public class ListChooserActivity extends TitledWearActivity implements WearableL
         }
     }
 
-    @Override public void onClick(WearableListView.ViewHolder viewHolder) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.edit().putString(key, values[viewHolder.getPosition()].toString()).apply();
 
-        finish();
-    }
+    private class PreferenceEntriesAdapter extends WearableRecyclerView.Adapter<PreferenceEntriesAdapter.RecyclerViewHolder> {
 
-    @Override public void onTopEmptyRegionClick() { }
-
-
-    private class PreferenceEntriesAdapter extends WearableListView.Adapter {
-
-        @Override
-        public WearableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        @Override @NonNull
+        public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             final ListItemLayout itemView = new ListItemLayout(ListChooserActivity.this);
-            return new WearableListView.ViewHolder(itemView);
+            return new RecyclerViewHolder(itemView);
         }
 
-        @Override public void onBindViewHolder(WearableListView.ViewHolder holder, int position) {
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
             final ListItemLayout itemView = (ListItemLayout)holder.itemView;
             itemView.bindView(icons != null ? icons[position] : icon, entries[position], null);
-            itemView.onNonCenterPosition(false);
         }
 
         @Override public int getItemCount() {
             return entries.length;
+        }
+
+        public class RecyclerViewHolder extends RecyclerView.ViewHolder implements
+                View.OnClickListener {
+
+            public RecyclerViewHolder(final View view) {
+                super(view);
+                view.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick (View view) {
+                int position = getAdapterPosition();
+                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ListChooserActivity.this);
+                prefs.edit().putString(key, values[position].toString()).apply();
+                finish();
+            }
         }
     }
 

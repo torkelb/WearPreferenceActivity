@@ -8,21 +8,19 @@
     android:gravity="center_vertical"
     >
 
-    <android.support.wearable.view.CircledImageView
+    <ImageView
         android:id="@android:id/icon"
-        android:layout_height="72dp"
-        android:layout_width="72dp"
-        app:circle_color="@android:color/transparent"
-        app:circle_border_color="?android:attr/colorForeground"
-        app:circle_border_width="1dp"
+        android:layout_height="24dp"
+        android:layout_width="24dp"
         />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         >
 
         <TextView

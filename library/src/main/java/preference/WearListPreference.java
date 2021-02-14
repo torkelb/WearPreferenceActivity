@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import me.denley.wearpreferenceactivity.R;
 import preference.internal.ListChooserActivity;

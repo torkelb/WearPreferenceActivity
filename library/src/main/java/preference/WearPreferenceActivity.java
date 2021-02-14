@@ -1,10 +1,13 @@
 package preference;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.XmlRes;
-import android.support.wearable.view.WearableListView;
+import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.XmlRes;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,21 +25,23 @@ import preference.internal.WearPreferenceScreen;
  */
 public abstract class WearPreferenceActivity extends TitledWearActivity {
 
-    private WearableListView list;
+    private WearableRecyclerView list;
     private List<WearPreferenceItem> preferences = new ArrayList<>();
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.preference_list);
-        list = (WearableListView) findViewById(android.R.id.list);
+        list = findViewById(android.R.id.list);
+        WearableRecyclerView.LayoutManager layoutManager = new WearableLinearLayoutManager(this);
+        list.setLayoutManager(layoutManager);
     }
 
     /**
      * Inflates the preferences from the given resource and displays them on this page.
      * @param prefsResId    The resource ID of the preferences xml file.
      */
-    protected void addPreferencesFromResource(@XmlRes int prefsResId) {
+    protected void  addPreferencesFromResource(@XmlRes int prefsResId) {
         addPreferencesFromResource(prefsResId, new XmlPreferenceParser());
     }
 
@@ -57,18 +62,62 @@ public abstract class WearPreferenceActivity extends TitledWearActivity {
 
     private void addPreferences(List<WearPreferenceItem> newPreferences){
         preferences = newPreferences;
-        list.setAdapter(new SettingsAdapter());
-
-        list.setClickListener(new WearableListView.ClickListener() {
-            @Override public void onClick(final WearableListView.ViewHolder viewHolder) {
-                final WearPreferenceItem clickedItem = preferences.get(viewHolder.getPosition());
-                clickedItem.onPreferenceClick(WearPreferenceActivity.this);
-            }
-            @Override public void onTopEmptyRegionClick() {}
-        });
+        SettingsAdapter adapter = new SettingsAdapter(preferences);
+        list.setAdapter(adapter);
     }
 
-    private class SettingsAdapter extends WearableListView.Adapter {
+    private class SettingsAdapter extends WearableRecyclerView.Adapter<SettingsAdapter.PreferenceRecyclerViewHolder> {
+        private final List<WearPreferenceItem> preferences;
+        public SettingsAdapter(List<WearPreferenceItem> newPreferences) {
+            preferences = newPreferences;
+        }
+        @NonNull
+        @Override
+        public PreferenceRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            final ListItemLayout itemView = new ListItemLayout(WearPreferenceActivity.this);
+            return new PreferenceRecyclerViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull PreferenceRecyclerViewHolder holder, int position) {
+            final WearPreferenceItem preference = preferences.get(position);
+            final ListItemLayout itemView = (ListItemLayout)holder.itemView;
+            itemView.bindPreference(preference);
+            // todo: fixa itemView.onNonCenterPosition(false);
+        }
+
+        @Override
+        public int getItemCount() {
+            return preferences.size();
+        }
+
+        public class PreferenceRecyclerViewHolder extends WearableRecyclerView.ViewHolder implements
+                View.OnClickListener {
+
+            public PreferenceRecyclerViewHolder(final View view) {
+                super(view);
+                view.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick (View view) {
+                int position = getAdapterPosition();
+                final WearPreferenceItem clickedItem = preferences.get(position);
+                clickedItem.onPreferenceClick(WearPreferenceActivity.this);
+            }
+        }
+
+        @Override
+        public void onViewRecycled(@NonNull PreferenceRecyclerViewHolder holder) {
+            super.onViewRecycled(holder);
+            final ListItemLayout itemView = (ListItemLayout)holder.itemView;
+            itemView.releaseBinding();
+        }
+    }
+
+
+    }
+/*private class SettingsAdapterOld extends WearableListView.Adapter {
         @Override public WearableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final ListItemLayout itemView = new ListItemLayout(WearPreferenceActivity.this);
             return new WearableListView.ViewHolder(itemView);
@@ -91,4 +140,4 @@ public abstract class WearPreferenceActivity extends TitledWearActivity {
         }
     }
 
-}
+}*/
