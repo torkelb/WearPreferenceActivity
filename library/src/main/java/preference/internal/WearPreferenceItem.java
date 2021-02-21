@@ -16,13 +16,18 @@ public abstract class WearPreferenceItem implements Serializable {
     /** The Android namespace. This can be used when loading android attributes from an AttributeSet */
     protected static final String NAMESPACE_ANDROID = "http://schemas.android.com/apk/res/android";
 
+    private String heading;
     @DrawableRes private int icon;
     private String title;
     private String summary;
 
+
     public WearPreferenceItem(@NonNull final Context context, @NonNull final AttributeSet attrs) {
         obtainAndroidAttributes(context, attrs);
         obtainCustomAttributes(context, attrs);
+    }
+    public WearPreferenceItem(@NonNull final String heading) {
+        this.heading = heading;
     }
 
     private void obtainAndroidAttributes(@NonNull final Context context, @NonNull final AttributeSet attrs) {
@@ -91,5 +96,7 @@ public abstract class WearPreferenceItem implements Serializable {
         return summary;
     }
 
-
+    // Experimental, lets try to add the header to the first item of the list
+    public void setHeading(String heading) { this.heading = heading; }
+    public CharSequence getHeading(@NonNull final Context context) { return heading;}
 }

@@ -33,6 +33,7 @@ public abstract class WearPreferenceActivity extends TitledWearActivity {
 
         setContentView(R.layout.preference_list);
         list = findViewById(android.R.id.list);
+        list.setEdgeItemsCenteringEnabled(true);
         WearableRecyclerView.LayoutManager layoutManager = new WearableLinearLayoutManager(this);
         list.setLayoutManager(layoutManager);
     }

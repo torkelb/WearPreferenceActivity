@@ -59,6 +59,7 @@ public class ListItemLayout extends FrameLayout implements SharedPreferences.OnS
     private int circleColorCenter = Color.TRANSPARENT;
     private int circleColorNonCenter = Color.TRANSPARENT;
 
+
     private CircleSizeAnimation circleGrowAnimation = null;
     private CircleSizeAnimation circleShrinkAnimation = null;
 
@@ -86,7 +87,7 @@ public class ListItemLayout extends FrameLayout implements SharedPreferences.OnS
     private void init(@NonNull Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         initLayout(context);
-        //todo fixa kanske initCircle(context, attrs, defStyleAttr, defStyleRes);
+        //initCircle(context, attrs, defStyleAttr, defStyleRes);
         // todo fixa kanske initAnimations();
     }
 
@@ -167,17 +168,49 @@ public class ListItemLayout extends FrameLayout implements SharedPreferences.OnS
 
     private void bindPreferenceView(@NonNull final WearPreferenceItem preference){
         final Context context = getContext();
-        bindView(preference.getIcon(context), preference.getTitle(context), preference.getSummary(context));
+        bindView(preference.getIcon(context), preference.getTitle(context), preference.getSummary(context), false);
     }
 
+
+    /*private void drawCircle(int iconId) {
+        BitmapFactory.Options myOptions = new BitmapFactory.Options();
+        myOptions.inDither = true;
+        myOptions.inScaled = false;
+        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), iconId,myOptions);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2f);
+
+        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
+        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        Canvas canvas = new Canvas(mutableBitmap);
+        canvas.drawCircle(mutableBitmap.getWidth()/(float)2, mutableBitmap.getHeight()/(float)2, mutableBitmap.getWidth()/(float)2-2f, paint);
+
+        assert icon != null;
+        icon.setAdjustViewBounds(true);
+        icon.setImageBitmap(mutableBitmap);
+    }*/
+
+    
     public void bindView(@DrawableRes final int iconId,
                          @Nullable final CharSequence titleText,
-                         @Nullable final CharSequence summaryText) {
+                         @Nullable final CharSequence summaryText,
+                         final boolean selected) {
         if(icon !=null) {
            icon.setImageResource(iconId);
+           /* looks like crap if (selected) {
+               drawCircle(iconId);
+           }*/
         }
         if(title!=null) {
             title.setText(titleText);
+            title.setTextColor(selected ? Color.YELLOW : Color.WHITE);
         }
         if(summary!=null) {
             if(summaryText==null) {
@@ -194,6 +227,9 @@ public class ListItemLayout extends FrameLayout implements SharedPreferences.OnS
             bindPreferenceView(bindedPreference);
         }
     }
+
+
+
 
    /* todo fixa kanske  @Override
     public void onCenterPosition(boolean animate) {

@@ -62,10 +62,16 @@ public class ListChooserActivity extends TitledWearActivity {
         list.setAdapter(new PreferenceEntriesAdapter());
         WearableRecyclerView.LayoutManager layoutManager = new WearableLinearLayoutManager(this);
         list.setLayoutManager(layoutManager);
+        // Make it possible to scroll selected item to the middle
+        list.setEdgeItemsCenteringEnabled(true);
+        
+
+        list.smoothScrollToPosition(getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0));
         // list.scrollToPosition makes our automatic heading adjustment fail so use this instead
-        ((WearableLinearLayoutManager)list.getLayoutManager()).scrollToPositionWithOffset(getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0), 0);
+        // only works for relativelayout ((WearableLinearLayoutManager) Objects.requireNonNull(list.getLayoutManager())).scrollToPositionWithOffset(getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0), 0);
         /*Log.d("ListChooserActivity",
                 "scrollToPositionWithOffset("+getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0)+")");*/
+
     }
 
     private void loadIntentExtras(){
@@ -100,8 +106,10 @@ public class ListChooserActivity extends TitledWearActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+            // See if this view contains the selected value
+            boolean selected = getIntent().getIntExtra(EXTRA_CURRENT_VALUE, 0) == position;
             final ListItemLayout itemView = (ListItemLayout)holder.itemView;
-            itemView.bindView(icons != null ? icons[position] : icon, entries[position], null);
+            itemView.bindView(icons != null ? icons[position] : icon, entries[position], null, selected);
         }
 
         @Override public int getItemCount() {
