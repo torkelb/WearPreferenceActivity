@@ -3,21 +3,22 @@ package preference.internal;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.wearable.view.WearableListView;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.WindowInsets;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableRecyclerView;
+
 import me.denley.wearpreferenceactivity.R;
 
-public class HeadingListView extends RelativeLayout implements WearableListView.OnScrollListener {
+public class HeadingListView extends RelativeLayout { // implements OnScrollListener {
 
     TextView heading;
-    WearableListView list;
+    WearableRecyclerView list;
 
-    boolean hasAdjustedPadding = false;
+//    boolean hasAdjustedPadding = false;
 
     public HeadingListView(final Context context) {
         super(context);
@@ -38,11 +39,21 @@ public class HeadingListView extends RelativeLayout implements WearableListView.
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
-        heading = (TextView) findViewById(R.id.heading);
-        list = (WearableListView) findViewById(android.R.id.list);
-        list.addOnScrollListener(this);
+        heading = findViewById(R.id.heading);
+        list = findViewById(android.R.id.list);
+        list.setEdgeItemsCenteringEnabled(true);
+        list.addOnScrollListener(new PrefScrollListener());
     }
 
+    // This works but only if we scroll manually or use smoothScrollToPosition
+    private class PrefScrollListener extends WearableRecyclerView.OnScrollListener {
+        @Override public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            heading.setY(Math.min(heading.getY() - dy, 0));
+        }
+    }
+
+
+    /* borde inte behövas med wearablerecyclerview
     @Override public WindowInsets onApplyWindowInsets(final WindowInsets insets) {
         if(insets.isRound()) {
             heading.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -58,13 +69,13 @@ public class HeadingListView extends RelativeLayout implements WearableListView.
             heading.setGravity(Gravity.START);
         }
         return super.onApplyWindowInsets(insets);
-    }
+    }*/
 
-    @Override public void onAbsoluteScrollChange(final int i) {
-        heading.setY(Math.min(-i, 0));
-    }
+   // @Override public void onAbsoluteScrollChange(final int i) {
+   //     heading.setY(Math.min(-i, 0));
+   // }
 
-    @Override public void onScroll(final int i) {}
-    @Override public void onScrollStateChanged(final int i) {}
-    @Override public void onCentralPositionChanged(final int i) {}
+    //@Override public void onScroll(final int i) {}
+    //@Override public void onScrollStateChanged(final int i) {}
+    //@Override public void onCentralPositionChanged(final int i) {}
 }

@@ -2,10 +2,11 @@ package preference;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.XmlRes;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -64,14 +65,11 @@ public class XmlPreferenceParser {
     private void parseItem(final Context context, final XmlResourceParser parser, final WearPreferenceScreen screen)
             throws XmlPullParserException, IOException {
 
-        switch(parser.getName()) {
-            case "PreferenceScreen":
-                final WearPreferenceScreen childScreen = parseScreen(context, parser);
-                screen.addChild(childScreen);
-                break;
-            default:
-                parsePreference(context, parser, screen);
-                break;
+        if ("PreferenceScreen".equals(parser.getName())) {
+            final WearPreferenceScreen childScreen = parseScreen(context, parser);
+            screen.addChild(childScreen);
+        } else {
+            parsePreference(context, parser, screen);
         }
     }
 

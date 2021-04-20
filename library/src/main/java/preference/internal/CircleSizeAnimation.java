@@ -1,9 +1,10 @@
 package preference.internal;
 
-import android.support.annotation.NonNull;
-import android.support.wearable.view.CircledImageView;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+
+import androidx.annotation.NonNull;
+import androidx.wear.widget.RoundedDrawable;
 
 /**
  * An animation for android.support.wearable.view.CircledImageView
@@ -11,11 +12,11 @@ import android.view.animation.Transformation;
  */
 class CircleSizeAnimation extends Animation {
 
-    @NonNull private final CircledImageView circledView;
+    @NonNull private final RoundedDrawable circledView;
     private final float targetRadius;
-    private float startRadius;
+    private final float startRadius;
 
-    public CircleSizeAnimation(@NonNull CircledImageView circledView,
+    public CircleSizeAnimation(@NonNull RoundedDrawable circledView,
                                float targetRadius) {
 
         this.circledView = circledView;
@@ -26,19 +27,19 @@ class CircleSizeAnimation extends Animation {
     @Override protected void applyTransformation(float interpolatedTime, @NonNull Transformation t) {
         float radius = interpolatedTime*targetRadius
                 + (1-interpolatedTime)*startRadius;
-        circledView.setCircleRadius(radius);
+        circledView.setRadius((int)radius); //todo: was setCircleRadius
     }
 
     /**
      * Begins animating the circle radius toward the target value
      * If this animation is already in progress, this does nothing.
      */
-    public void animate() {
-        if (circledView.getAnimation() != this) {
+    /*public void animate() {
+       if (circledView.getAnimation() != this) {
             circledView.clearAnimation();
             startRadius = circledView.getCircleRadius();
             circledView.startAnimation(this);
         }
-    }
+    }*/
 
 }

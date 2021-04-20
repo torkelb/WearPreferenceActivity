@@ -15,10 +15,14 @@
     <string name="summary_hide">Hide</string>
 
     <string-array name="entries_language" tools:translatable="false">
-        <item>English</item>
-        <item>Español</item>
-        <item>Français</item>
-        <item>Deutsch</item>
+        <item>English-0</item>
+        <item>Español-1</item>
+        <item>Français-2</item>
+        <item>Deutsch-3</item>
+        <item>English-4</item>
+        <item>Español-5</item>
+        <item>Français-6</item>
+        <item>Deutsch-7</item>
     </string-array>
 
     <string-array name="values_language" tools:translatable="false">
@@ -26,9 +30,17 @@
         <item>es</item>
         <item>fr</item>
         <item>de</item>
+        <item>en2</item>
+        <item>es2</item>
+        <item>fr2</item>
+        <item>de2</item>
     </string-array>
 
     <array name="icons_language">
+        <item>@drawable/ic_language_en</item>
+        <item>@drawable/ic_language_es</item>
+        <item>@drawable/ic_language_fr</item>
+        <item>@drawable/ic_language_de</item>
         <item>@drawable/ic_language_en</item>
         <item>@drawable/ic_language_es</item>
         <item>@drawable/ic_language_fr</item>

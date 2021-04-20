@@ -13,7 +13,7 @@ public abstract class TitledWearActivity extends Activity {
     @Override protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        heading = (TextView) findViewById(R.id.heading);
+        heading = findViewById(R.id.heading);
         heading.setText(getTitle());
     }
 
