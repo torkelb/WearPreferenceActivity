@@ -27,8 +27,7 @@
         android:layout_weight="1"
         android:scrollbars="vertical"
         android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="48dp"
     />
-    <!--android:paddingBottom="40dp"
-    android:paddingTop="60dp"-->
+
 </preference.internal.HeadingListView>
