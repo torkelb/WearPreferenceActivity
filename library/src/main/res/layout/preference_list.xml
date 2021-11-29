@@ -6,6 +6,7 @@
     android:background="@color/main_background"
     android:orientation="vertical"
     >
+    <requestFocus /> <!-- This is needed for rotary inputs to work -->
     <!-- If placed last it will be drawn on top of the other items -->
     <TextView
         android:id="@+id/heading"
