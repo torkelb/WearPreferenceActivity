@@ -57,11 +57,11 @@ publishing {
         }
     }
 }
-task zipRelease(type: Zip) {
+/*task zipRelease(type: Zip) {
     from localReleaseDest
     destinationDir buildDir
     archiveName "release-${version}.zip"
-}
+}*/
 
 task generateRelease {
     doLast {
@@ -72,7 +72,7 @@ task generateRelease {
 
 //generateRelease.dependsOn(uploadArchives)
 generateRelease.dependsOn(publishing)
-generateRelease.dependsOn(zipRelease)
+//generateRelease.dependsOn(zipRelease)
 
 
 artifacts {

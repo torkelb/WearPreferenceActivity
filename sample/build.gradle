@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "30.0.3"
+    compileSdk 33
+    buildToolsVersion "33.0.1"
 
     defaultConfig {
         applicationId project.GROUP_ID + '.sample'
         minSdkVersion 23
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode project.VERSION_CODE
         versionName project.VERSION_NAME
     }
