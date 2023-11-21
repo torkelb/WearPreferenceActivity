@@ -8,16 +8,17 @@
     >
     <requestFocus /> <!-- This is needed for rotary inputs to work -->
     <!-- If placed last it will be drawn on top of the other items -->
+
     <TextView
         android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:ellipsize="end"
-        android:paddingTop="50dp"
-        android:paddingBottom="4dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="12dp"
+        android:paddingStart="26dp"
+        android:paddingEnd="20dp"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
