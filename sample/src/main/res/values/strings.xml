@@ -2,9 +2,9 @@
 
     <string name="app_name">WearPreferenceActivity Sample</string>
 
-    <string name="title_settings">Settings123456789123456789</string>
+    <string name="title_settings">Appearance</string>
 
-    <string name="title_location">Location123456789123456789</string>
+    <string name="title_location">Location</string>
     <string name="title_backup_data">Data Backup</string>
     <string name="title_language">Language</string>
     <string name="title_full_screen">Full Screen</string>
