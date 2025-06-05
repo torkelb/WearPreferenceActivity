@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdk 34
-    buildToolsVersion "33.0.1"
+    compileSdk 35
+    //buildToolsVersion "35.0.0"
 
     defaultConfig {
         applicationId project.GROUP_ID + '.sample'
